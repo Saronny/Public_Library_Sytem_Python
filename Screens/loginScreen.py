@@ -1,13 +1,13 @@
-import Screens.screen as sc
+import Screens.screen as Screens
 import login
 
 
 
-class loginScreen(sc.Screen):    
+class LoginScreen(Screens.Screen):    
 
     title = "Login Screen"
     menu = []
-    screens = []
+    screens = [] 
 
     def __init__(self):
         super().__init__(None , self.title, self.menu, self.screens)
@@ -19,12 +19,11 @@ class loginScreen(sc.Screen):
         print("Please enter your password: ")
         self.password = input()
 
-        self.login = login.login(self.username, self.password)
-        if self.login.login() == False:
-            super().showError("Invalid username or password")
-            self.show()
+        self.login = login.Login(self.username, self.password)
+        if login.Login == True:
+            print ("Welcome " + self.login.Login().get_name())
         else:
-            print ("Welcome " + self.login.login().get_name())
+            super().showError("Invalid username or password")
 
 
     

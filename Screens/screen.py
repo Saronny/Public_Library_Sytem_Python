@@ -28,12 +28,14 @@ class Screen:
     def get_input(self):
         try:
             choice = int(input())
-            if self.menu[choice] == "Exit":
+
+            if self.menu[choice-1] == "Exit":
                 self.Exit()
-            elif self.menu[choice] == "Back":
+            elif self.menu[choice-1] == "Back":
                 self.Back()
             else:
-                self.screens[choice].show()
+                self.clear()
+                self.screens[choice-1].show()
         except ValueError:
             self.showError("Invalid input")
             self.show()
