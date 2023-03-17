@@ -1,11 +1,11 @@
-import sys
-import Screens.screen as screen
-import Screens.mainScreen as mainScreen
+import screen
 
 def main(): 
-    screen = mainScreen.MainScreen()
-    screen.clear()
-    screen.show()
+    choice = 0 
+    if(choice == 0):
+        scr = screen.Screen("Main Menu", ["Login", "Exit"])
+        scr.show()
+
 
 if __name__ == "__main__":
     main()

@@ -4,11 +4,10 @@ import os
 
 class Screen:
 
-    def __init__(self, previous, title, menu, screens):
-        self.previous = previous
+    def __init__(self, title, menu):
+      
         self.title = title
         self.menu = menu
-        self.screens = screens
 
     def show(self):
         print(self.title)
@@ -34,8 +33,7 @@ class Screen:
             elif self.menu[choice-1] == "Back":
                 self.Back()
             else:
-                self.clear()
-                self.screens[choice-1].show()
+                return choice
         except ValueError:
             self.showError("Invalid input")
             self.show()
