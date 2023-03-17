@@ -1,4 +1,5 @@
 import Screens.screen as Screens
+import Screens.userScreen as userScreen
 import login
 
 
@@ -15,15 +16,18 @@ class LoginScreen(Screens.Screen):
     def show(self):
         print(self.title)
         print("Please enter your username: ")
-        self.username = input()
+        username = input()
         print("Please enter your password: ")
-        self.password = input()
+        password = input()
 
-        self.login = login.Login(self.username, self.password)
-        if login.Login == True:
-            print ("Welcome " + self.login.Login().get_name())
-        else:
+        user = login.Login(username, password)
+        if user == False:
             super().showError("Invalid username or password")
+            self.show()
+        else:
+            print ("Welcome " + user.username + "!")
+            screen = userScreen.UserScreen(user)  
+            screen.show()
 
 
     
