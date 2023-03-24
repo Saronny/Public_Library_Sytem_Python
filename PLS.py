@@ -13,10 +13,12 @@ def main():
             user = scr.show()
             if user != None:
                 if user.getRole() == "Admin":
-                    scr = screen.Screen("Admin Menu", ["Logout", "Exit"])
+                    scr = screen.Screen("Admin Menu", ["Logout"])
+                    scr.setBack("Main Menu")
                     choice = scr.show()
                 else:
-                    scr = screen.Screen("User Menu", ["Logout", "Exit"])
+                    scr = screen.Screen("User Menu", ["Logout"])
+                    scr.setBack("Main Menu")
                     choice = scr.show()
             
         elif(choice == "Exit"):

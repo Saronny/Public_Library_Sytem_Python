@@ -29,9 +29,10 @@ class Screen:
 
     def get_input(self):
         try:
-            # self.show() 
             choice = int(input())
             if(choice > 0 and choice <= len(self.menu)):
+                if self.menu[choice-1] == "Back" or self.menu[choice-1] == "Logout":
+                    return self.Back
                 return self.menu[choice-1]
             else:
                 self.showError("Invalid input")
@@ -43,6 +44,8 @@ class Screen:
             self.showError("Invalid input")
             self.get_input()
 
+    def setBack(self, back):
+        self.Back = back
 
 class LoginScreen(Screen):
     def __init__(self, title):
