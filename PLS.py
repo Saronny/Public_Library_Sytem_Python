@@ -1,5 +1,4 @@
 import screen
-
 def main(): 
     
     choice = "Main Menu"
@@ -17,6 +16,8 @@ def main():
                     choice = "Admin Menu"
                 else:
                    choice = "User Menu"
+            else:
+                choice = "Main Menu"
             
 
         elif(choice == "Admin Menu"):

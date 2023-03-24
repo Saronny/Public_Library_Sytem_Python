@@ -1,6 +1,7 @@
 import sys
 import os
 import login as login
+import time
 
 
 class Screen:
@@ -15,7 +16,7 @@ class Screen:
         print("=== " + self.title  + " ===")
         number = 1
         for item in self.menu:
-            print("[" + str(number) + "]" + item)
+            print("[" + str(number) + "] " + item)
             number += 1
         return self.get_input()
         
@@ -26,6 +27,7 @@ class Screen:
     def showError(self, error):
         self.clear()
         print(error)
+        time.sleep(1)
 
     def get_input(self):
         try:
@@ -63,8 +65,8 @@ class LoginScreen(Screen):
         if self.login.user != None:
             return self.login.user
         else:
-            self.showError("Invalid login")
-            self.show()
+            self.showError("Invalid username or password")
+            return None
 
 
 
