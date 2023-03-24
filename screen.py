@@ -1,5 +1,6 @@
 import sys
 import os
+import login as login
 
 
 class Screen:
@@ -40,6 +41,32 @@ class Screen:
         except IndexError:
             self.showError("Invalid input")
             self.get_input()
+
+
+class LoginScreen(Screen):
+    def __init__(self, title):
+        self.title = title
+        self.username = ""
+        self.password = "" 
+
+
+    def show(self):
+        print("=== " + self.title  + " ===")
+        self.username = input("Enter your username: ")
+        self.password = input("Enter your password: ")
+        self.login = login.Login(self.username, self.password)
+        self.login.Login()
+        if self.login.user != None:
+            return self.login.user
+        else:
+            self.showError("Invalid login")
+            self.show()
+
+
+
+    
+       
+
 
    
 

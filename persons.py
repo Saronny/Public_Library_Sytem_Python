@@ -1,10 +1,13 @@
 class Person: 
     def __init__(self, name):
         self.name = name
+        self.Role = "Person"
     
     def get_name(self):
         return self.name
-
+    
+    def getRole(self):
+        return self.Role
 
 class User(Person):
     def __init__(self, number, name, surname, address, zipcode, city, email, username, telephone):
@@ -17,6 +20,7 @@ class User(Person):
         self.city = city
         self.surname = surname
         self.username = username
+        self.Role = "User"
         
     def get_email(self):
         return self.email
@@ -35,9 +39,12 @@ class User(Person):
     
     def get_username(self):
         return self.username
+    
+
 
 
 class Admin(Person):
 
     def __init__(self):
         super().__init__("Admin")
+        self.Role = "Admin"
