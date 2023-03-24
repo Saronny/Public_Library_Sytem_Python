@@ -11,6 +11,7 @@ class Screen:
         self.Back = ""
 
     def show(self):
+        self.clear()
         print("=== " + self.title  + " ===")
         number = 1
         for item in self.menu:
@@ -49,8 +50,8 @@ class LoginScreen(Screen):
         self.username = ""
         self.password = "" 
 
-
     def show(self):
+        self.clear()
         print("=== " + self.title  + " ===")
         self.username = input("Enter your username: ")
         self.password = input("Enter your password: ")
