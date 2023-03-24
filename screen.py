@@ -5,9 +5,8 @@ import os
 class Screen:
 
     def __init__(self, title, menu):
-      
         self.title = title
-        self.menu = menu
+        self.menu = menu 
 
     def show(self):
         print(self.title)
@@ -15,7 +14,7 @@ class Screen:
         for item in self.menu:
             print(str(number) + ". " + item)
             number += 1
-        self.get_input()
+        
 
     def clear(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -26,26 +25,21 @@ class Screen:
 
     def get_input(self):
         try:
+            self.show() 
             choice = int(input())
-
-            if self.menu[choice-1] == "Exit":
-                self.Exit()
-            elif self.menu[choice-1] == "Back":
-                self.Back()
+            if(choice > 0 and choice <= len(self.menu)):
+                return self.menu[choice-1]
             else:
-                return choice
+                self.showError("Invalid input")
+                self.get_input()
         except ValueError:
             self.showError("Invalid input")
-            self.show()
+            self.get_input()	
         except IndexError:
             self.showError("Invalid input")
-            self.show()
+            self.get_input()
 
-    def Back(self):
-        self.previous.show()
-    
-    def Exit(self):
-        sys.exit()
+   
 
         
 
