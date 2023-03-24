@@ -15,7 +15,7 @@ class Screen:
         print("=== " + self.title  + " ===")
         number = 1
         for item in self.menu:
-            print(str(number) + ". " + item)
+            print("[" + str(number) + "]" + item)
             number += 1
         return self.get_input()
         
