@@ -2,6 +2,7 @@ import sys
 import os
 import login as login
 import time
+import search as s
 
 
 class Screen:
@@ -28,6 +29,7 @@ class Screen:
         self.clear()
         print(error)
         time.sleep(1)
+        
 
     def get_input(self):
         try:
@@ -69,10 +71,37 @@ class LoginScreen(Screen):
             return None
 
 
-
+class SearchScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu 
+        self.Back = ""
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        self.request = input("Enter your search request: ")
+        self.search = s.Search(self.request)
+        
+        if self.search.result != "No results found":
+            number = 1
+            for item in self.search.result:
+                print("[" + str(number) + "] " + item)
+                number += 1
+            number = 1
+            print("=====================================")
+            for item in self.menu:
+                print("[" + str(number) + "] " + item)
+                number += 1
+            return self.get_input()
+        else :
+            self.showError("No results found")
+            return self.Back
+        
+    def setBack(self, back):
+        self.Back = back
     
-       
-
+    
 
    
 

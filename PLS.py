@@ -31,8 +31,10 @@ def main():
             choice = scr.show()
 
         elif(choice == "Search Catalog"):
-            scr = screen.Screen("Search Catalog", ["Back"])
+            scr = screen.SearchScreen("Search Catalog", ["Back"])
             scr.setBack("User Menu")
+            if user.getRole() == "Admin":
+                scr.setBack("Admin Menu")
             choice = scr.show()
 
         elif(choice == "Lend book"):
