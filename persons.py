@@ -3,7 +3,7 @@ class Person:
         self.name = name
         self.Role = "Person"
     
-    def get_name(self):
+    def getName(self):
         return self.name
     
     def getRole(self):
@@ -20,24 +20,37 @@ class User(Person):
         self.city = city
         self.surname = surname
         self.username = username
+        self.password = ""
         self.Role = "User"
         
-    def get_email(self):
+    def getEmail(self):
         return self.email
     
-    def get_telephone(self):
+    def getTelephone(self):
         return self.telephone
     
-    def get_address(self):
+    def getSurname(self):
+        return self.surname
+    
+    def getCity(self):
+        return self.city
+    
+    def getZipcode(self):
+        return self.zipcode
+    
+    def getAddress(self):
         return self.address + " " + self.zipcode + " " + self.city 
     
-    def get_number(self):
+    def getNumber(self):
         return self.number
+
+    def setPassword(self, password):
+        self.password = password
     
-    def full_name(self):
-        return self.name + " " + self.surname
+    def getPassword(self):
+        return self.password
     
-    def get_username(self):
+    def getUsername(self):
         return self.username
     
 

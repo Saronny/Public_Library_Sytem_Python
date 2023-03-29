@@ -24,7 +24,7 @@ def main():
             
 
         elif(choice == "Admin Menu"):
-            scr = screen.Screen("Admin Menu", ["Search Catalog", "Add book", "Remove book", "Logout"])
+            scr = screen.Screen("Admin Menu", ["Search Catalog", "Add book", "Remove book", "Register", "Logout"])
             scr.setBack("Main Menu")
             choice = scr.show()
 
@@ -48,6 +48,16 @@ def main():
         elif(choice == "Lend book"):
             scr = screen.Screen("Lend book", ["Back"])
             scr.setBack("User Menu")
+            choice = scr.show()
+        
+        elif(choice == "Remove book"):
+            scr = screen.Screen("Remove book", ["Back"])
+            scr.setBack("Admin Menu")
+            choice = scr.show()
+        
+        elif(choice == "Register"):
+            scr = screen.AddUserScreen("Register", ["Back"])
+            scr.setBack("Admin Menu")
             choice = scr.show()
 
         elif(choice == "Return book"):

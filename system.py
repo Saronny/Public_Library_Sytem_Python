@@ -49,11 +49,12 @@ class System:
             if user.getUsername() == Username:
                 return "Username already taken"
         for char in Username:
-            if char.isUpper():
+            if char.isupper():
                 return "Username cannot contain capital letters"
         
         Number = len(self.users) + 1
-        newUser = persons.User(Number, GivenName, SurName, StreetAddress, ZipCode, City, EmailAddress, Username, Password, TelephoneNumber)
+        newUser = persons.User(Number, GivenName, SurName, StreetAddress, ZipCode, City, EmailAddress, Username, TelephoneNumber)
+        newUser.setPassword(Password) 
         self.users.append(newUser)
         self.saveUsers()
 
@@ -75,7 +76,7 @@ class System:
             with open('Data/Members.csv', 'w', newline='') as f:
                 writer = csv.writer(f)
                 for user in self.users:
-                    writer.writerow([user.getNumber(), user.getGivenName(), user.getSurName(), user.getStreetAddress(), user.getZipCode(), user.getCity(), user.getEmailAddress(), user.getUsername(), user.getPassword(), user.getTelephoneNumber()])
+                    writer.writerow([user.getNumber(), user.getName(), user.getSurname(), user.getAddress(), user.getZipcode(), user.getCity(), user.getEmail(), user.getUsername(), user.getPassword(), user.getTelephone()])
         except:
             print("Error saving users")
 
