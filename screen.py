@@ -1,8 +1,8 @@
-import sys
+import system as system
 import os
 import login as login
 import time
-import search as s
+
 
 
 class Screen:
@@ -11,6 +11,7 @@ class Screen:
         self.title = title
         self.menu = menu 
         self.Back = ""
+        self.sys = system.System()
 
     def show(self):
         self.clear()
@@ -76,18 +77,19 @@ class SearchScreen(Screen):
         self.title = title
         self.menu = menu 
         self.Back = ""
+        self.sys = system.System()
+        
+        
         
     def show(self):
         self.clear()
         print ("=== " + self.title + " ===")
         self.request = input("Enter your search request: ")
-        self.search = s.Search(self.request)
+        self.search = self.sys.search(self.request)
         
-        if self.search.result != "No results found":
-            number = 1
-            for item in self.search.result:
-                print("[" + str(number) + "] " + item)
-                number += 1
+        if self.search != "No results found":
+            for item in self.search:
+                print("[*] " + item)
             number = 1
             print("=====================================")
             for item in self.menu:
@@ -98,8 +100,42 @@ class SearchScreen(Screen):
             self.showError("No results found")
             return self.Back
         
-    def setBack(self, back):
-        self.Back = back
+    # def setBack(self, back):
+    #     self.Back = back
+
+class AddBookScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu 
+        self.Back = ""
+        self.sys = system.System()
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        self.author = input("Enter the author: ")
+        self.country = input("Enter the country: ")
+        self.imageLink = input("Enter the image link: ")
+        self.link = input("Enter the link: ")
+        try:
+            self.pages = int(input("Enter the number of pages: "))
+        except ValueError:
+            self.showError("Number of pages must be a number")
+            return self.Back
+        self.title = input("Enter the title: ")
+        self.ISBN = input("Enter the ISBN: ")
+        try:
+            self.year = int(input("Enter the year: "))
+        except ValueError:
+            self.showError("Year must be a number")
+            return self.Back
+        self.book = self.sys.AddBook(self.author, self.country, self.imageLink, self.link, self.pages, self.title, self.ISBN, self.year)
+        if self.book != "Book added":
+            self.showError("Book not added - ISBN already exists")
+            return self.Back
+        else:
+            self.showError("Book added")
+            return self.Back
     
     
 

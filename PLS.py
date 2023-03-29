@@ -1,4 +1,7 @@
 import screen
+import system
+import time
+
 def main(): 
     
     choice = "Main Menu"
@@ -35,6 +38,11 @@ def main():
             scr.setBack("User Menu")
             if user.getRole() == "Admin":
                 scr.setBack("Admin Menu")
+            choice = scr.show()
+
+        elif(choice == "Add book"):
+            scr = screen.AddBookScreen("Add book", ["Back"])
+            scr.setBack("Admin Menu")
             choice = scr.show()
 
         elif(choice == "Lend book"):
