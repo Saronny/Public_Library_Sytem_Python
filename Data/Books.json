@@ -448,15 +448,5 @@
     "title": "Memoirs of Hadrian",
     "ISBN": "9781231577095",
     "year": 1951
-  },
-  {
-    "author": "test",
-    "country": "test",
-    "imageLink": "test",
-    "link": "test",
-    "pages": 100,
-    "title": "test",
-    "ISBN": "2",
-    "year": 2000
   }
 ]

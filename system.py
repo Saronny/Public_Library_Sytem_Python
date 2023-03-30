@@ -11,14 +11,16 @@ class System:
         self.books = []
         self.loadUsers()
         self.loadBooks()
-        self.currentUser = None
     
     def loadUsers(self):
         try:
             with open('Data/Members.csv') as f:
-                reader = csv.reader(f)
+                reader = csv.reader(f, delimiter=';' , quotechar="'")
+                num = 0
                 for row in reader:
                     self.users.append(persons.User(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9]))
+                    self.users[num].setPassword(row[8])
+                    num += 1
         except:
             print("Error loading users")
 
@@ -49,11 +51,12 @@ class System:
             if user.getUsername() == Username:
                 return "Username already taken"
         for char in Username:
-            if char.isUpper():
+            if char.isupper():
                 return "Username cannot contain capital letters"
         
         Number = len(self.users) + 1
-        newUser = persons.User(Number, GivenName, SurName, StreetAddress, ZipCode, City, EmailAddress, Username, Password, TelephoneNumber)
+        newUser = persons.User(Number, GivenName, SurName, StreetAddress, ZipCode, City, EmailAddress, Username, TelephoneNumber)
+        newUser.setPassword(Password)
         self.users.append(newUser)
         self.saveUsers()
 
@@ -73,9 +76,9 @@ class System:
     def saveUsers(self):
         try:
             with open('Data/Members.csv', 'w', newline='') as f:
-                writer = csv.writer(f)
+                writer = csv.writer(f, delimiter=';' , quotechar="'")
                 for user in self.users:
-                    writer.writerow([user.getNumber(), user.getGivenName(), user.getSurName(), user.getStreetAddress(), user.getZipCode(), user.getCity(), user.getEmailAddress(), user.getUsername(), user.getPassword(), user.getTelephoneNumber()])
+                    writer.writerow([user.getNumber(), user.getName(), user.getSurname(), user.getAddress(), user.getZipcode(), user.getCity(), user.getEmail(), user.getUsername(), user.getPassword(), user.getTelephone()])
         except:
             print("Error saving users")
 
@@ -86,6 +89,17 @@ class System:
                 json.dump([ob.__dict__ for ob in self.books], f)
         except:
             print("Error saving books")
+
+    def removeBook(self, ISBN):
+        try:
+            for book in self.books:
+                if book.getISBN() == ISBN:
+                    self.books.remove(book)
+                    self.saveBooks()
+                    return "Book removed"
+            return "Book not found"
+        except:
+            return "Error removing book"
 
     def search(self, req):
         try:
