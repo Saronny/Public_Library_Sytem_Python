@@ -5,6 +5,13 @@ import time
 import books
 
 
+#TODO: Add edit function for members and books 
+#TODO: Add remove function for members 
+#TODO: add Members.csv and books.json if they don't exist
+#TODO: Add Back up function for system (Members.csv and books.json and bookItems.csv) filename = "backup" + time.strftime("%Y%m%d-%H%M%S") + serial ".ext"
+#TODO: Add restore function for system 
+
+
 class System: 
     def __init__(self) -> None:
         self.users = []
