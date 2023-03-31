@@ -38,19 +38,36 @@ class Book:
 
 
 class BookItem:
-    def __init__(self, title, user):
+    def __init__(self, title, userNumber, isbn):
         self.title = title
-        self.user = user
-        self.returnDate = datetime.date.today() + datetime.timedelta(days=30)
+        self.isbn = isbn
+        self.userNumber = userNumber
+        self.status = "Available"
+        self.returnDate = self.SetReturnDate()
 
-    def getBook(self):
-        return self.book
+    def getTitle(self):
+        return self.title
     
-    def getUser(self):
-        return self.user
+    def getUserNumber(self):
+        return self.userNumber
     
     def getDate(self):
         return self.date
+    
+    def getISBN(self):
+        return self.isbn
+    
+    def setStatus(self, status):
+        self.status = status
+        
+    def getStatus(self):
+        return self.status
+    
+    def SetReturnDate(self):
+        if self.status == "Available":
+            self.returnDate = ""
+        else:
+            self.returnDate = datetime.date.today() + datetime.timedelta(days=14)
         
     def CalculateFine(self):
         today = datetime.date.today()

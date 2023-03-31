@@ -24,20 +24,18 @@ def main():
             
 
         elif(choice == "Admin Menu"):
-            scr = screen.Screen("Admin Menu", ["Search Catalog", "Add book", "Remove book", "Register", "Logout"])
+            scr = screen.Screen("Admin Menu", ["Catalog", "Add book", "Remove book", "Register", "Logout"])
             scr.setBack("Main Menu")
             choice = scr.show()
 
         elif (choice == "User Menu"):
-            scr = screen.Screen("User Menu", ["Search Catalog", "Lend book", "Return book", "Logout"])
+            scr = screen.Screen("User Menu", ["Catalog", "Lend book", "Return book", "Logout"])
             scr.setBack("Main Menu")
             choice = scr.show()
 
         elif(choice == "Search Catalog"):
             scr = screen.SearchScreen("Search Catalog", ["Back"])
-            scr.setBack("User Menu")
-            if user.getRole() == "Admin":
-                scr.setBack("Admin Menu")
+            scr.setBack("Catalog")
             choice = scr.show()
 
         elif(choice == "Add book"):
@@ -63,6 +61,19 @@ def main():
         elif(choice == "Register"):
             scr = screen.RegisterScreen("Register", ["Back"])
             scr.setBack("Admin Menu")
+            choice = scr.show()
+            
+        elif (choice == "Catalog"):
+            scr = screen.Screen("Catalog", ["Show Catalog", "Search Catalog", "Back"])
+            if user.getRole() == "Admin":
+                scr.setBack("Admin Menu")
+            else:
+                scr.setBack("User Menu")
+            choice = scr.show()
+            
+        elif(choice == "Show Catalog"):
+            scr = screen.ShowCatalogScreen("Show Catalog", ["Back"])
+            scr.setBack("Catalog")
             choice = scr.show()
             
         elif(choice == "Exit"):

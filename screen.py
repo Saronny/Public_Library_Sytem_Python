@@ -6,12 +6,14 @@ import time
 
 
 class Screen:
+    
+    sys = system.System()
 
     def __init__(self, title, menu):
         self.title = title
         self.menu = menu 
         self.Back = ""
-        self.sys = system.System()
+        
 
     def show(self):
         self.clear()
@@ -34,20 +36,21 @@ class Screen:
 
     def get_input(self):
         try:
-            choice = int(input())
+            print("=====================================")
+            choice = int(input("Enter your choice: "))
             if(choice > 0 and choice <= len(self.menu)):
                 if self.menu[choice-1] == "Back" or self.menu[choice-1] == "Logout":
                     return self.Back
                 return self.menu[choice-1]
             else:
                 self.showMessage("Invalid input")
-                self.get_input()
+                return self.show()
         except ValueError:
             self.showMessage("Invalid input")
-            self.get_input()	
+            return self.show()
         except IndexError:
             self.showMessage("Invalid input")
-            self.get_input()
+            return self.show()
 
     def setBack(self, back):
         self.Back = back
@@ -77,7 +80,7 @@ class SearchScreen(Screen):
         self.title = title
         self.menu = menu 
         self.Back = ""
-        self.sys = system.System()
+        # self.sys = system.System()
         
         
         
@@ -89,7 +92,7 @@ class SearchScreen(Screen):
         
         if self.search != "No results found":
             for item in self.search:
-                print("[*] " + item)
+                print("[*] " + item.getAuthor() + " - " + item.getTitle() +  " ---------------- Availibility: " + str(self.sys.getBookAvailable(item.getTitle())))
             number = 1
             print("=====================================")
             for item in self.menu:
@@ -108,7 +111,7 @@ class AddBookScreen(Screen):
         self.title = title
         self.menu = menu 
         self.Back = ""
-        self.sys = system.System()
+        # self.sys = system.System()
         
     def show(self):
         self.clear()
@@ -142,7 +145,7 @@ class RegisterScreen (Screen):
         self.title = title
         self.menu = menu 
         self.Back = ""
-        self.sys = system.System()
+        # self.sys = system.System()
         
     def show(self):
         self.clear()
@@ -165,7 +168,7 @@ class RemoveBookScreen (Screen):
         self.title = title
         self.menu = menu 
         self.Back = ""
-        self.sys = system.System()
+        # self.sys = system.System()
         
     def show(self):
         self.clear()
@@ -175,6 +178,26 @@ class RemoveBookScreen (Screen):
         self.showMessage(self.remove)
         return self.Back
     
+    
+class ShowCatalogScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu 
+        self.Back = ""
+        # self.sys = system.System()
+        self.books = self.sys.getBooks()
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        for item in self.books:
+            print("[*] " + item.getTitle() + " ---------------- Availibility: " + str(self.sys.getBookAvailable(item.getTitle())))
+        number = 1
+        print("=====================================")
+        for item in self.menu:
+            print("[" + str(number) + "] " + item)
+            number += 1
+        return self.get_input()
     
 
    
