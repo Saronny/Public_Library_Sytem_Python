@@ -24,10 +24,21 @@ def main():
             
 
         elif(choice == "Admin Menu"):
-            scr = screen.Screen("Admin Menu", ["Catalog", "Add book", "Remove book", "Register", "Logout"])
+            scr = screen.Screen("Admin Menu", ["Catalog", "Books", "Members", "System", "Logout"])
             scr.setBack("Main Menu")
             choice = scr.show()
-
+        
+        elif (choice == "Books"):
+            scr = screen.Screen("Books", ["Add book",  "Edit book", "Remove book", "Lend book", "Return book", "Back"])
+            scr.setBack("Admin Menu")
+            choice = scr.show()
+            
+        elif (choice == "Members"):
+            scr = screen.Screen("Members", ["See members", "Register", "Edit member", "Remove member", "Back"])
+            scr.setBack("Admin Menu")
+            choice = scr.show()
+            
+            
         elif (choice == "User Menu"):
             scr = screen.Screen("User Menu", ["Catalog", "Lend book", "Return book", "Logout"])
             scr.setBack("Main Menu")
@@ -40,27 +51,35 @@ def main():
 
         elif(choice == "Add book"):
             scr = screen.AddBookScreen("Add book", ["Back"])
-            scr.setBack("Admin Menu")
+            scr.setBack("Books")
             choice = scr.show()
 
         elif(choice == "Lend book"):
+            #TODO: Add lend book screen
             scr = screen.Screen("Lend book", ["Back"])
-            scr.setBack("User Menu")
+            if user.getRole() == "Admin":
+                scr.setBack("Books")
+            else:
+                scr.setBack("User Menu")
             choice = scr.show()
 
         elif(choice == "Return book"):
+            #TODO: Add return book screen
             scr = screen.Screen("Return book", ["Back"])
-            scr.setBack("User Menu")
+            if user.getRole() == "Admin":
+                scr.setBack("Books")
+            else:
+                scr.setBack("User Menu")
             choice = scr.show()
         
         elif(choice == "Remove book"):
             scr = screen.RemoveBookScreen("Remove book", ["Back"])
-            scr.setBack("Admin Menu")
+            scr.setBack("Books")
             choice = scr.show()
 
         elif(choice == "Register"):
             scr = screen.RegisterScreen("Register", ["Back"])
-            scr.setBack("Admin Menu")
+            scr.setBack("Members")
             choice = scr.show()
             
         elif (choice == "Catalog"):
@@ -75,6 +94,30 @@ def main():
             scr = screen.ShowCatalogScreen("Show Catalog", ["Back"])
             scr.setBack("Catalog")
             choice = scr.show()
+            
+        elif(choice == "Edit book"):
+            #TODO: Add edit book screen
+            scr = screen.Screen("Edit book", ["Back"])
+            scr.setBack("Books")
+            choice = scr.show()
+            
+        elif(choice == "Edit member"):
+            #TODO: Add edit member screen
+            scr = screen.Screen("Edit member", ["Back"])
+            scr.setBack("Members")
+            choice = scr.show()
+            
+        elif(choice == "Remove member"):
+            #TODO: Add remove member screen
+            scr = screen.Screen("Remove member", ["Back"])
+            scr.setBack("Members")
+            choice = scr.show()
+            
+        elif(choice == "See members"):
+            #TODO: Add see members screen
+            scr = screen.Screen("See members", ["Back"])
+            scr.setBack("Members")
+            choice = scr.show() 
             
         elif(choice == "Exit"):
             break
