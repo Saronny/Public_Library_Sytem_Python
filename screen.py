@@ -200,6 +200,56 @@ class ShowCatalogScreen(Screen):
         return self.get_input()
     
 
+class ShowMembersScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu 
+        self.Back = ""
+        self.members = self.sys.getMembers()
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        if self.members != "No members found":
+            for item in self.members:
+                print("[*] " + item.getNumber() + ". " + item.getUsername() + " ---------------- " + item.getEmail())
+            number = 1
+            print("=====================================")
+            for item in self.menu:
+                print("[" + str(number) + "] " + item)
+                number += 1
+        else:
+            print(self.members)
+        return self.get_input()
+    
+class LendBookScreen(Screen):
+    def __init__(self, title, menu, role, userNumber=0):
+        self.title = title
+        self.menu = menu 
+        self.Back = ""
+        self.role = role
+        self.userNumber = userNumber
+    
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        if self.role == "User":
+            self.memberNumber = self.userNumber
+            query = input("Enter the ISBN or Title of the book you want to lend: ")
+            self.lend = self.sys.lendBook(query, self.userNumber)
+            if self.lend == "Member has already lent 3 books":
+                self.showMessage("You have already lent 3 books")
+                return self.Back
+            self.showMessage(self.lend)
+            return self.Back
+        else:
+            memberNumber = input("Enter the number of the member you want to lend the book to: ")
+            self.userNumber = memberNumber
+            query = input("Enter the ISBN or Title of the book you want to lend: ")
+            self.lend = self.sys.lendBook(query, self.userNumber)
+            self.showMessage(self.lend)
+            return self.Back 
+
    
 
         

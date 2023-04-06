@@ -7,7 +7,7 @@ import books
 
 #TODO: Add edit function for members and books 
 #TODO: Add remove function for members 
-#TODO: add Members.csv and books.json if they don't exist
+#TODO: Test if files get created if they don't exist Members.csv and books.json
 #TODO: Add Back up function for system (Members.csv and books.json and bookItems.csv) filename = "backup" + time.strftime("%Y%m%d-%H%M%S") + serial ".ext"
 #TODO: Add restore function for system 
 
@@ -31,7 +31,10 @@ class System:
                     self.users[num].setPassword(row[8])
                     num += 1
         except:
-            print("Error loading users")
+            #create file if it doesn't exist in Data folder
+            with open('Data/Members.csv', 'w', newline='') as f:    
+                writer = csv.writer(f, delimiter=';' , quotechar="'")
+                writer.writerow(["Number", "GivenName", "SurName", "StreetAddress", "ZipCode", "City", "EmailAddress", "Username", "Password", "TelephoneNumber"])
 
     def loadBooks(self):
         try:
@@ -40,7 +43,9 @@ class System:
                 for book in data:
                     self.books.append(books.Book(book["author"], book["country"], book["imageLink"], book["link"], book["pages"], book["title"], book["ISBN"], book["year"]))
         except:
-            print("Error loading books")
+            with open('Data/Books.json', 'w') as f:
+                json.dump([], f)
+
         
     
     def getCurrentUser(self):
@@ -180,3 +185,43 @@ class System:
             self.saveBookItems()
         except:
             return "Error removing book item"
+        
+    def getMembers(self):
+        if self.users == []:
+            return "No members found"
+        return self.users
+    
+    def lendBook(self, query, userNumber):
+        try:
+            member = self.getMember(userNumber)
+            if member == "Member not found":
+                return "Member not found"
+            count = 0
+            for bookItem in self.bookItems:
+                if bookItem.getUserNumber() == int(userNumber):
+                    count += 1
+            if count >= 3:
+                return "Member has already lent 3 books"
+            for bookItem in self.bookItems:
+                if bookItem.getStatus() == "Lent":
+                    continue
+                if bookItem.getTitle() == query or bookItem.getISBN() == query and bookItem.getStatus() == "Available":
+                    bookItem.setStatus("Lent")
+                    bookItem.setUserNumber(int(userNumber))
+                    bookItem.setReturnDate()
+                    self.saveBookItems()
+                    return "Book lent"
+            return "No books available"
+        except:
+            return "Error lending book"
+        
+    def getMember(self, userNumber):
+        try:
+            for user in self.users:
+                if user.getNumber() == userNumber:
+                    return user
+            return "Member not found"
+        except:
+            return "Error loading Members"
+        
+    

@@ -57,8 +57,8 @@ def main():
             choice = scr.show()
 
         elif(choice == "Lend book"):
-            #TODO: Add lend book screen
-            scr = screen.Screen("Lend book", ["Back"])
+            userNumber = user.getNumber()
+            scr = screen.LendBookScreen("Lend book", ["Back"], user.getRole(), userNumber)
             if user.getRole() == "Admin":
                 scr.setBack("Book Menu")
             else:
@@ -116,9 +116,8 @@ def main():
             choice = scr.show()
             
         elif(choice == "See members"):
-            #TODO: Add see members screen
-            scr = screen.Screen("See members", ["Back"])
-            scr.setBack("Member Menu")
+            scr = screen.ShowMembersScreen("See members", ["Back"])
+            scr.setBack("Members Menu")
             choice = scr.show() 
             
         elif(choice == "System Menu"):
@@ -133,10 +132,13 @@ def main():
             choice = scr.show()
             
         elif(choice == "Restore back-up"):
-            #TODO: Add restore back-up screen weird bug here 
+            #TODO: add restore back-up screen
             scr = screen.Screen("Restore back-up", ["Back"])
             scr.setBack("System Menu")
-            case = scr.show()
+            choice = scr.show()
+
+
+
             
         elif(choice == "Exit"):
             break

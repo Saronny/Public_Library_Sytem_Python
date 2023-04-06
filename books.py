@@ -43,7 +43,7 @@ class BookItem:
         self.isbn = isbn
         self.userNumber = userNumber
         self.status = "Available"
-        self.returnDate = self.SetReturnDate()
+        self.returnDate = ""
 
     def getTitle(self):
         return self.title
@@ -63,11 +63,13 @@ class BookItem:
     def getStatus(self):
         return self.status
     
-    def SetReturnDate(self):
-        if self.status == "Available":
-            self.returnDate = ""
-        else:
-            self.returnDate = datetime.date.today() + datetime.timedelta(days=14)
+    def setUserNumber(self, userNumber):
+        self.userNumber = userNumber
+    
+    def setReturnDate(self):
+        ## Set return date to 30 days from today and store as a string in the variable
+        self.returnDate = str(datetime.date.today() + datetime.timedelta(days=30))
+    
         
     def CalculateFine(self):
         today = datetime.date.today()
