@@ -31,7 +31,7 @@ def main():
             choice = scr.show()
         
         elif (choice == "Book Menu"):
-            scr = screen.Screen("Book Menu", ["Add book",  "Edit book", "Remove book", "Lend book", "Return book", "Back"])
+            scr = screen.Screen("Book Menu", ["Add book",  "Edit book", "Remove book", "Lend book", "Return book", "See loans", "Back"])
             scr.setBack("Admin Menu")
             choice = scr.show()
             
@@ -57,7 +57,10 @@ def main():
             choice = scr.show()
 
         elif(choice == "Lend book"):
-            userNumber = user.getNumber()
+            if user.getRole() == "User":
+                userNumber = user.getNumber()
+            else :
+                userNumber = 0
             scr = screen.LendBookScreen("Lend book", ["Back"], user.getRole(), userNumber)
             if user.getRole() == "Admin":
                 scr.setBack("Book Menu")
@@ -66,8 +69,11 @@ def main():
             choice = scr.show()
 
         elif(choice == "Return book"):
-            #TODO: Add return book screen
-            scr = screen.Screen("Return book", ["Back"])
+            if user.getRole() == "User":
+                userNumber = user.getNumber()
+            else :
+                userNumber = 0 
+            scr = screen.ReturnBookScreen("Return book", ["Back"], user.getRole(), userNumber)
             if user.getRole() == "Admin":
                 scr.setBack("Book Menu")
             else:
@@ -108,10 +114,10 @@ def main():
             scr = screen.Screen("Edit member", ["Back"])
             scr.setBack("Members Menu")
             choice = scr.show()
+
             
         elif(choice == "Remove member"):
-            #TODO: Add remove member screen
-            scr = screen.Screen("Remove member", ["Back"])
+            scr = screen.RemoveMemberScreen("Remove member", ["Back"])
             scr.setBack("Members Menu")
             choice = scr.show()
             
@@ -137,6 +143,10 @@ def main():
             scr.setBack("System Menu")
             choice = scr.show()
 
+        elif(choice == "See loans"):
+            scr = screen.ShowLendBookItems("loanes", ["Back"])
+            scr.setBack("Book Menu")
+            choice = scr.show()
 
 
             

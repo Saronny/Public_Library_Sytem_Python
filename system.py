@@ -191,11 +191,22 @@ class System:
             return "No members found"
         return self.users
     
-    def lendBook(self, query, userNumber):
+    def lendBook(self, query, userQuery):
         try:
-            member = self.getMember(userNumber)
+            for i in userQuery:
+                if i.isdigit() == True:
+                    member = self.getMember(userQuery)
+                    break
+                else:
+                    member = self.getMemberByUser(userQuery)
+                    break    
             if member == "Member not found":
                 return "Member not found"
+            userNumber = member.getNumber()
+            loanedBooks = self.getLoanedBooks(userNumber)
+            for book in loanedBooks:
+                if book.getISBN() == query or book.getTitle() == query:
+                    return "Member has already lent this book"
             count = 0
             for bookItem in self.bookItems:
                 if bookItem.getUserNumber() == int(userNumber):
@@ -223,5 +234,106 @@ class System:
             return "Member not found"
         except:
             return "Error loading Members"
+        
+    def getMemberUsername(self, userNumber):
+        try:
+            for user in self.users:
+                if user.getNumber() == userNumber:
+                    return user.getUsername()
+            return "Member not found"
+        except:
+            return "Error loading Members"
+        
+
+    def getMemberByUser(self, username):
+        try:
+            for user in self.users:
+                if user.getUsername() == username:
+                    return user
+            return "Member not found"
+        except:
+            return "Error loading Members"
+        
+    def getLoanedBooks(self, query):
+        try:
+            books = []
+            for i in query: 
+                if i.isdigit() == True: 
+                    userNumber = query
+                    break
+                else:
+                    userNumber = self.getMemberByUser(query).getNumber()
+                    break
+            for bookItem in self.bookItems:
+                if bookItem.getUserNumber() == int(userNumber):
+                    books.append(bookItem)
+            return books
+        except:
+            return "Error loading books"
+        
+        
+    def returnBook(self, query, userNumber):
+        try:
+            for bookItem in self.bookItems:
+                if bookItem.getTitle() == query or bookItem.getISBN() == query and bookItem.getUserNumber() == int(userNumber):
+                    bookItem.setStatus("Available")
+                    bookItem.setUserNumber(0)
+                    bookItem.setReturnDateNull()
+                    self.saveBookItems()
+                    return "Book returned"
+            return "Book not found"
+        except:
+            return "Error returning book"
+        
+    def getAllLoanedBooks(self):
+        try:
+            books = []
+            for bookItem in self.bookItems:
+                if bookItem.getStatus() == "Lent":
+                    books.append(bookItem)
+            return books
+        except:
+            return "Error loading books"
+        
+    def removeMember(self, query):
+        try:
+            for user in self.users:
+                if user.getNumber() == query or user.getUsername() == query:
+                    self.users.remove(user)
+                    self.saveUsers()
+                    return "Member removed"
+            return "Member not found"
+        except:
+            return "Error removing member"
+        
+    
+    def removeBook(self, query):
+        try:
+            if self.getBookAvailable(query) != 5:
+                return "Book is currently lent"
+            exists = False
+            for book in self.books:
+                if book.getTitle() == query or book.getISBN() == query:
+                    exists = True
+                    break
+            if exists == False:
+                return "Book not found"
+            for book in self.books:
+                if book.getTitle() == query or book.getISBN() == query:
+                    self.books.remove(book)
+            self.saveBooks()
+            query = query 
+            for bookItem in self.bookItems:
+                if bookItem.getTitle() == query:
+                    self.bookItems.remove(bookItem)
+                if bookItem.getISBN() == query:
+                    self.bookItems.remove(bookItem)
+                else:
+                    continue
+            for i in range(5):
+                self.saveBookItems()
+            return "Book removed"
+        except:
+            return "Error removing book" 
         
     

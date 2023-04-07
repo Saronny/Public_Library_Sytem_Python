@@ -3,7 +3,6 @@ import os
 import login as login
 import time
 
-#TODO: Fix restore backup menu back button
 
 class Screen:
     
@@ -234,24 +233,166 @@ class LendBookScreen(Screen):
         self.clear()
         print ("=== " + self.title + " ===")
         if self.role == "User":
-            self.memberNumber = self.userNumber
             query = input("Enter the ISBN or Title of the book you want to lend: ")
             self.lend = self.sys.lendBook(query, self.userNumber)
             if self.lend == "Member has already lent 3 books":
                 self.showMessage("You have already lent 3 books")
                 return self.Back
+            if self.lend == "Member has already lent this book":
+                self.showMessage("You have already lent this book")
+                return self.Back
             self.showMessage(self.lend)
             return self.Back
         else:
-            memberNumber = input("Enter the number of the member you want to lend the book to: ")
-            self.userNumber = memberNumber
+            self.userNumber = input("Enter the number or username of the member you want to lend the book to: ")
             query = input("Enter the ISBN or Title of the book you want to lend: ")
             self.lend = self.sys.lendBook(query, self.userNumber)
             self.showMessage(self.lend)
             return self.Back 
+        
+class ReturnBookScreen(Screen):
+    def __init__(self, title, menu, role, userNumber=0):
+        self.title = title
+        self.menu = menu
+        self.Back = ""
+        self.role = role
+        self.userNumber = userNumber
+        if self.role == "User":
+            self.lentBooks = self.sys.getLoanedBooks(self.userNumber)
+        else:
+            self.lentBooks = []
+            
+    
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        if self.role == "User":
+            if self.lentBooks == []:
+                self.showMessage("You have no books to return")
+                return self.Back
+            num = 1
+            for item in self.lentBooks:
+                print("[" + str(num) + "] " + item.getTitle() + " " + item.getISBN() + " ---------------- Due date: " + item.getDate())
+                num += 1
+            print ("=====================================")
+            print ("[0] Back")
+            try:
+                query = int(input("Enter a number: "))
+                if query == 0:
+                    return self.Back
+                self.returnBook = self.sys.returnBook(self.lentBooks[query-1].getTitle(), self.userNumber)
+                self.showMessage(self.returnBook)
+                return self.Back
+            except:
+                self.showMessage("Invalid input")
+                return self.Back
+            
+           
+        else:
+            self.userNumber = input("Enter the number or username of the member you want to return the book from: ")
+            self.lentBooks = self.sys.getLoanedBooks(self.userNumber)
+            if self.lentBooks == []:
+                self.showMessage("Member has no books to return")
+                return self.Back
+            num = 1
+            for item in self.lentBooks:
+                print("[" + str(num) + "] " + item.getTitle() + " " + item.getISBN() + " ---------------- Due date: " + item.getDate())
+                num += 1
+            print ("=====================================")
+            print ("[0] Back")
+            try:
+                query = int(input("Enter a number: "))
+                if query == 0:
+                    return self.Back
+                self.returnBook = self.sys.returnBook(self.lentBooks[query-1].getTitle(), self.userNumber)
+                self.showMessage(self.returnBook)
+                return self.Back
+            except:
+                self.showMessage("Invalid input")
+                return self.Back
 
-   
+class ShowLendBookItems(Screen): 
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu
+        self.Back = ""
+        self.loans = self.sys.getAllLoanedBooks()
+            
+    
+    def show(self):
+        self.clear() 
+        print ("=== " + self.title + " ===")
+        if self.loans == []:
+            self.showMessage("There are no books lent")
+            return self.Back
+        for item in self.loans:
+            print("[*] " + self.sys.getMemberUsername(item.getUserNumber()) + ": " + item.getTitle() +  " - " + item.getISBN() + " ---------------- Due date: " + item.getDate())
+        number = 1
+        print("=====================================")
+        for item in self.menu:
+            print("[" + str(number) + "] " + item)
+            number += 1
+        return self.get_input()
 
         
 
+class RemoveBookScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu
+        self.Back = ""
+        self.books = self.sys.getBooks()
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        if self.books == []:
+            self.showMessage("There are no books to remove")
+            return self.Back
+        num = 1
+        for item in self.books:
+            print("[" + str(num) + "] " + item.getTitle() + " " + item.getISBN())
+            num += 1
+        print ("=====================================")
+        print ("[0] Back")
+        try:
+            query = int(input("Enter a number: "))
+            if query == 0:
+                return self.Back
+            self.remove = self.sys.removeBook(self.books[query-1].getTitle())
+            self.showMessage(self.remove)
+            return self.Back
+        except:
+            self.showMessage("Invalid input")
+            return self.Back
+    
+class RemoveMemberScreen(Screen):
+    def __init__(self, title, menu):
+        self.title = title
+        self.menu = menu
+        self.Back = ""
+        self.members = self.sys.getMembers()
+        
+    def show(self):
+        self.clear()
+        print ("=== " + self.title + " ===")
+        if self.members == []:
+            self.showMessage("There are no members to remove")
+            return self.Back
+        num = 1
+        for item in self.members:
+            print("[" + str(num) + "] " + item.getUsername() + " " + item.getNumber())
+            num += 1
+        print ("=====================================")
+        print ("[0] Back")
+        try:
+            query = int(input("Enter a number: "))
+            if query == 0:
+                return self.Back
+            self.remove = self.sys.removeMember(self.members[query-1].getNumber())
+            self.showMessage(self.remove)
+            return self.Back
+        except:
+            self.showMessage("Invalid input")
+            return self.Back
     

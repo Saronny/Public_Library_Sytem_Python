@@ -52,7 +52,7 @@ class BookItem:
         return self.userNumber
     
     def getDate(self):
-        return self.date
+        return self.returnDate
     
     def getISBN(self):
         return self.isbn
@@ -67,8 +67,10 @@ class BookItem:
         self.userNumber = userNumber
     
     def setReturnDate(self):
-        ## Set return date to 30 days from today and store as a string in the variable
-        self.returnDate = str(datetime.date.today() + datetime.timedelta(days=30))
+        self.returnDate = str(datetime.date.today() + datetime.timedelta(days=60))
+
+    def setReturnDateNull(self):
+        self.returnDate = ""
     
         
     def CalculateFine(self):
