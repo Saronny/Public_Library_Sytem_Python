@@ -52,7 +52,7 @@ def main():
 
         elif (choice == "User Menu"):
             scr = screen.Screen(
-                "User Menu", ["Catalog", "Lend book", "Return book", "Logout"])
+                "User Menu", ["Catalog", "Lend book", "See loans", "Return book", "Logout"])
             scr.setBack("Main Menu")
             choice = scr.show()
 
@@ -153,7 +153,7 @@ def main():
             choice = scr.show()
 
         elif (choice == "See loans"):
-            scr = screen.ShowLendBookItems("loanes", ["Back"])
+            scr = screen.ShowLendBookItems("Loanes", ["Back"])
             scr.setBack("Book Menu")
             choice = scr.show()
 
