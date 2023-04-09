@@ -543,7 +543,7 @@ class RestoreBackupScreen(Screen):
         self.clear()
         print("=== " + self.title + " ===")
         print("Format: date-time_backup serial number")
-        if self.backups == []:
+        if len(self.backups) == 0:
             self.showMessage("There are no backups to restore")
             return self.Back
         elif self.backups == "Error getting backups":

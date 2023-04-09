@@ -1,13 +1,13 @@
 import screen
 
-# TODO: Add a screen for the user to see the books he has lent
-# TODO: test user input in all screens
+# TODO: Add a screen for the user to see the books he has lent (this can be seen in the return books screen)
+# TODO: test user input in all screens (tested)
 # TODO: Test if files get created if they don't exist Members.csv and books.json
 # TODO: Test all edit functions in system.py for users and books NOTE: if books are edited, the bookitems are also edited!
 # TODO: Test all remove functions in system.py for users and books NOTE: if books are removed, the bookitems are also removed!
 # TODO: Test all lend and return functions in system.py for users and admin
 # TODO: Test all search functions in system.py for books
-# TODO: Test backup and restore functions in system.py for admin
+# TODO: Test backup and restore functions in system.py for admin (there was an error if you try to restore a backup if there are no backups => fixed)
 # TODO: Test register user function in system.py for admin
 # TODO: Test add book function in system.py for admin #NOTE if a book is added, the 5 bookitems are also added!
 
@@ -104,15 +104,15 @@ def main():
 
         elif (choice == "Catalog"):
             scr = screen.Screen(
-                "Catalog", ["Show Catalog", "Search Catalog", "Back"])
+                "Catalog", ["View Catalog", "Search Catalog", "Back"])
             if user.getRole() == "Admin":
                 scr.setBack("Admin Menu")
             else:
                 scr.setBack("User Menu")
             choice = scr.show()
 
-        elif (choice == "Show Catalog"):
-            scr = screen.ShowCatalogScreen("Show Catalog", ["Back"])
+        elif (choice == "View Catalog"):
+            scr = screen.ShowCatalogScreen("Catalog", ["Back"])
             scr.setBack("Catalog")
             choice = scr.show()
 
